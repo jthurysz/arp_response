@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ARP_RESPONSE_TB_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ARP_RESPONSE_TB" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="664500001fs"></ZoomEndTime>
+      <Cursor1Time time="44000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="308"></NameColumnWidth>
+      <ValueColumnWidth column_width="299"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="2" />
+   <wvobject type="group" fp_name="group11">
+      <obj_property name="label">Testbench</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/ARESET">
+         <obj_property name="ElementShortName">ARESET</obj_property>
+         <obj_property name="ObjectShortName">ARESET</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/MY_MAC">
+         <obj_property name="ElementShortName">MY_MAC[47:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_MAC[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/MY_IPV4">
+         <obj_property name="ElementShortName">MY_IPV4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_IPV4[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/CLK_RX">
+         <obj_property name="ElementShortName">CLK_RX</obj_property>
+         <obj_property name="ObjectShortName">CLK_RX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/DATA_VALID_RX">
+         <obj_property name="ElementShortName">DATA_VALID_RX</obj_property>
+         <obj_property name="ObjectShortName">DATA_VALID_RX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/DATA_RX">
+         <obj_property name="ElementShortName">DATA_RX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_RX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/CLK_TX">
+         <obj_property name="ElementShortName">CLK_TX</obj_property>
+         <obj_property name="ObjectShortName">CLK_TX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/DATA_TX">
+         <obj_property name="ElementShortName">DATA_TX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_TX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/DATA_ACK_TX">
+         <obj_property name="ElementShortName">DATA_ACK_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_ACK_TX</obj_property>
+      </wvobject>
+      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/clk_period">
+         <obj_property name="ElementShortName">clk_period</obj_property>
+         <obj_property name="ObjectShortName">clk_period</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/ARESET">
+         <obj_property name="ElementShortName">ARESET</obj_property>
+         <obj_property name="ObjectShortName">ARESET</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/MY_MAC">
+         <obj_property name="ElementShortName">MY_MAC[47:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_MAC[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/MY_IPV4">
+         <obj_property name="ElementShortName">MY_IPV4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_IPV4[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/CLK_RX">
+         <obj_property name="ElementShortName">CLK_RX</obj_property>
+         <obj_property name="ObjectShortName">CLK_RX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_VALID_RX">
+         <obj_property name="ElementShortName">DATA_VALID_RX</obj_property>
+         <obj_property name="ObjectShortName">DATA_VALID_RX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/DATA_RX">
+         <obj_property name="ElementShortName">DATA_RX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_RX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/CLK_TX">
+         <obj_property name="ElementShortName">CLK_TX</obj_property>
+         <obj_property name="ObjectShortName">CLK_TX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_VALID_TX">
+         <obj_property name="ElementShortName">DATA_VALID_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_VALID_TX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/DATA_TX">
+         <obj_property name="ElementShortName">DATA_TX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_TX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_ACK_TX">
+         <obj_property name="ElementShortName">DATA_ACK_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_ACK_TX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group32">
+      <obj_property name="label">UUT</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/ARESET">
+         <obj_property name="ElementShortName">ARESET</obj_property>
+         <obj_property name="ObjectShortName">ARESET</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/MY_MAC">
+         <obj_property name="ElementShortName">MY_MAC[47:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_MAC[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/MY_IPV4">
+         <obj_property name="ElementShortName">MY_IPV4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_IPV4[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/CLK_RX">
+         <obj_property name="ElementShortName">CLK_RX</obj_property>
+         <obj_property name="ObjectShortName">CLK_RX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_VALID_RX">
+         <obj_property name="ElementShortName">DATA_VALID_RX</obj_property>
+         <obj_property name="ObjectShortName">DATA_VALID_RX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/DATA_RX">
+         <obj_property name="ElementShortName">DATA_RX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_RX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/CLK_TX">
+         <obj_property name="ElementShortName">CLK_TX</obj_property>
+         <obj_property name="ObjectShortName">CLK_TX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_VALID_TX">
+         <obj_property name="ElementShortName">DATA_VALID_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_VALID_TX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/DATA_TX">
+         <obj_property name="ElementShortName">DATA_TX[7:0]</obj_property>
+         <obj_property name="ObjectShortName">DATA_TX[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/DATA_ACK_TX">
+         <obj_property name="ElementShortName">DATA_ACK_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_ACK_TX</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
