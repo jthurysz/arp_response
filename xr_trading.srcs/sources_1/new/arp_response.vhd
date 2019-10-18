@@ -35,7 +35,47 @@ end ARP_RESPONSE;
 
 architecture BEHAVIORAL of ARP_RESPONSE is
 
+    -- Component Instantions
+    component ARP_CONTROLLER
+        port (ARESET        : in std_logic;
+              
+              CLK_RX        : in std_logic;
+              DATA_VALID_RX : in std_logic;
+              
+              CNT_EQ_41     : in std_logic;
+              EN_CNT        : out std_logic);
+    end component ARP_CONTROLLER;
+
+    component ARP_DATAPATH
+        port (ARESET        : in std_logic;
+                
+              CLK_RX        : in std_logic;
+              DATA_RX       : in std_logic_vector(7 downto 0);
+              
+              CNT_EQ_41     : out std_logic;
+              EN_CNT        : in std_logic);
+    end component ARP_DATAPATH;
+
+    -- Constants
+
+    -- Controller/Datapath Interconnections
+    signal en_cnt    : std_logic;
+    signal CNT_EQ_41 : std_logic;
+
 begin
 
+    Controller : ARP_CONTROLLER
+    port map (ARESET => ARESET,
+              CLK_RX => CLK_RX,
+              DATA_VALID_RX => DATA_VALID_RX,
+              CNT_EQ_41     => CNT_EQ_41,
+              EN_CNT        => en_cnt);
+
+    Datapath : ARP_DATAPATH
+    port map (ARESET => ARESET,
+              CLK_RX => CLK_RX,
+              DATA_RX => DATA_RX,
+              CNT_EQ_41     => CNT_EQ_41,
+              EN_CNT        => en_cnt);
 
 end BEHAVIORAL;
