@@ -3,36 +3,27 @@
 -- Design Name : arp_controller.vhd
 -- Engineer    : Joe Hurysz
 --
--- Description : TO-DO
+-- Description : TX_RX FSMs for ARP Response
+--               Design
 --
 ----------------------------------------------
-
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
 entity ARP_CONTROLLER is
-    Port (ARESET        : in  std_logic;
-          
-          CLK_RX        : in  std_logic;
-          DATA_VALID_RX : in  std_logic;
-
-          CLK_TX        : in  std_logic;
-          DATA_ACK_TX   : in  std_logic;
-          DATA_VALID_TX : out std_logic;
-
-          RX_CNT_EQ_41  : in  std_logic;
-          TX_CNT_EQ_41  : in  std_logic;
-
+    Port (ARESET           : in  std_logic;
+          CLK_RX           : in  std_logic;
+          DATA_VALID_RX    : in  std_logic;
+          CLK_TX           : in  std_logic;
+          DATA_ACK_TX      : in  std_logic;
+          DATA_VALID_TX    : out std_logic;
+          RX_CNT_EQ_41     : in  std_logic;
+          TX_CNT_EQ_41     : in  std_logic;
           RX_EN_CNT        : out std_logic;
-          TX_EN_CNT     : out std_logic;
-          PARSE_DONE    : out std_logic;
-          SEND_MAC      : in  std_logic;
+          TX_EN_CNT        : out std_logic;
+          PARSE_DONE       : out std_logic;
+          SEND_MAC         : in  std_logic;
           SHOW_FIRST_BYTE  : out std_logic;
           LD_DATA_OUT      : out std_logic);
 end ARP_CONTROLLER;
@@ -148,8 +139,6 @@ begin
                 else
                     tx_next_state <= S_CONTINOUS_WRITE;
                 end if;
-                    
         end case;
     end process TX_State_Transition_Logic;
-
 end BEHAVIORAL;

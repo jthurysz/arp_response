@@ -3,16 +3,19 @@
 -- Design Name : arp_response_tb.vhd
 -- Engineer    : Joe Hurysz
 --
--- Description : TO-DO
+-- Description : Testbench for ARP Response design
+--               XR Trading project
+--
+-- ** To enhance the capability of this testbench
+-- ** it would be preferred to use some type of 
+-- ** self-checking framework such as cocotb, VUNIT
+-- ** or UVM (verilog) but I felt as if waveforms were 
+-- ** enough for this project.
 --
 ----------------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
 
 entity ARP_RESPONSE_TB is
 end ARP_RESPONSE_TB;
@@ -39,7 +42,7 @@ architecture TESTBENCH of ARP_RESPONSE_TB is
     end component ARP_RESPONSE;
 
     -- Constants
-    constant C_CLK_PERIOD    : time := 8 ns; -- 125 MHz Frequency
+    constant C_CLK_PERIOD      : time := 8 ns; -- 125 MHz Frequency
 
     constant C_MY_IPV4         : std_logic_vector(31 downto 0) := x"C0A80102";
     constant C_NOT_MY_IPV4     : std_logic_vector(31 downto 0) := x"C0A80108";
@@ -60,7 +63,7 @@ architecture TESTBENCH of ARP_RESPONSE_TB is
                                                                 &  C_PROTOCOL_LEN  & C_ARP_REQUEST   & C_ETH_SRC_MAC
                                                                 &  C_ETH_SRC_IPV4  & x"000000000000" & C_MY_IPV4;
     
-    constant C_ARP_REQ_FAIL : std_logic_vector(335 downto 0) := C_ARP_BROADCAST & C_ETH_SRC_MAC   & C_FRAME_TYPE
+    constant C_ARP_REQ_FAIL    : std_logic_vector(335 downto 0) := C_ARP_BROADCAST & C_ETH_SRC_MAC   & C_FRAME_TYPE
                                                                 &  C_HARDWARE_TYPE & C_PROTOCOL_TYPE & C_HARDWARE_LEN
                                                                 &  C_PROTOCOL_LEN  & C_ARP_REQUEST   & C_ETH_SRC_MAC
                                                                 &  C_ETH_SRC_IPV4  & x"000000000000" & C_NOT_MY_IPV4;
@@ -135,7 +138,7 @@ begin
         ARESET <= '1';
         wait for C_CLK_PERIOD;
         ARESET <= '0';
-        
+
         -- Start succesful ARP Request
         wait for C_CLK_PERIOD*5;
         wait until rising_edge(CLK_RX);
@@ -155,10 +158,6 @@ begin
         DATA_ACK_TX <= '0';
         
         wait for C_CLK_PERIOD*20;
-
         wait;
     end process;
-
-
-
 end TESTBENCH;

@@ -3,7 +3,8 @@
 -- Design Name : arp_datapath.vhd
 -- Engineer    : Joe Hurysz
 --
--- Description : TO-DO
+-- Description : Datapath for  ARP Response
+--               Design
 --
 ----------------------------------------------
 
@@ -15,66 +16,55 @@ entity ARP_DATAPATH is
     Port (ARESET : in std_logic;
 
           -- Static Signals
-          MY_MAC        : in  std_logic_vector(47 downto 0);
-          MY_IPV4       : in  std_logic_vector(31 downto 0);
+          MY_MAC          : in  std_logic_vector(47 downto 0);
+          MY_IPV4         : in  std_logic_vector(31 downto 0);
         
-          CLK_RX : in std_logic;
-          DATA_RX: in std_logic_vector(7 downto 0);
-          DATA_TX      : out std_logic_vector(7 downto 0);
+          CLK_RX          : in std_logic;
+          DATA_RX         : in std_logic_vector(7 downto 0);
+          DATA_TX         : out std_logic_vector(7 downto 0);
 
-          CLK_TX       : in std_logic;
-          RX_CNT_EQ_41 : out std_logic;
-          TX_CNT_EQ_41 : out std_logic;
-          RX_EN_CNT    : in std_logic;
-          TX_EN_CNT    : in std_logic;
+          CLK_TX          : in std_logic;
+          RX_CNT_EQ_41    : out std_logic;
+          TX_CNT_EQ_41    : out std_logic;
+          RX_EN_CNT       : in std_logic;
+          TX_EN_CNT       : in std_logic;
           
-          PARSE_DONE: in std_logic;
-          SEND_MAC  : out std_logic;
+          PARSE_DONE      : in std_logic;
+          SEND_MAC        : out std_logic;
           SHOW_FIRST_BYTE : in std_logic;
-          LD_DATA_OUT    : in std_logic);
+          LD_DATA_OUT     : in std_logic);
 end ARP_DATAPATH;
 
 architecture BEHAVIORAL of ARP_DATAPATH is
 
     -- Constants
-    constant C_CNTR_MAX : positive := 41;
+    constant C_CNTR_MAX      : positive := 41;
 
     -- Signal Declarations
-    signal rx_cntr_val      : unsigned(5 downto 0);
-    signal tx_cntr_val      : unsigned(5 downto 0);
+    signal rx_cntr_val       : unsigned(5 downto 0);
+    signal tx_cntr_val       : unsigned(5 downto 0);
 
-    signal rx_cnt_lt_6      : std_logic;
-    signal rx_cnt_btw_5_12  : std_logic;
-    signal rx_cnt_eq_12_13  : std_logic;
-    signal rx_cnt_eq_14_15  : std_logic;
-    signal rx_cnt_eq_16_17  : std_logic;
-    signal rx_cnt_eq_18     : std_logic;
-    signal rx_cnt_eq_19     : std_logic;
-    signal rx_cnt_eq_20_21  : std_logic;
-    signal rx_cnt_btw_28_31 : std_logic;
-    signal rx_cnt_btw_38_41 : std_logic;
+    signal rx_cnt_lt_6       : std_logic;
+    signal rx_cnt_btw_5_12   : std_logic;
+    signal rx_cnt_eq_12_13   : std_logic;
+    signal rx_cnt_eq_14_15   : std_logic;
+    signal rx_cnt_eq_16_17   : std_logic;
+    signal rx_cnt_eq_18      : std_logic;
+    signal rx_cnt_eq_19      : std_logic;
+    signal rx_cnt_eq_20_21   : std_logic;
+    signal rx_cnt_btw_28_31  : std_logic;
+    signal rx_cnt_btw_38_41  : std_logic;
 
-    signal tx_cnt_lt_6      : std_logic;
-    signal tx_cnt_btw_5_12  : std_logic;
-    signal tx_cnt_eq_12_13  : std_logic;
-    signal tx_cnt_eq_14_15  : std_logic;
-    signal tx_cnt_eq_16_17  : std_logic;
-    signal tx_cnt_eq_18     : std_logic;
-    signal tx_cnt_eq_19     : std_logic;
-    signal tx_cnt_eq_20_21  : std_logic;
-    signal tx_cnt_btw_28_31 : std_logic;
-    signal tx_cnt_btw_38_41 : std_logic;
-
-    signal broadcast     : std_logic_vector(47 downto 0);
-    signal src_mac       : std_logic_vector(47 downto 0);
-    signal frame_type    : std_logic_vector(15 downto 0);
-    signal hw_type       : std_logic_vector(15 downto 0);
-    signal proto_type    : std_logic_vector(15 downto 0);
-    signal hw_len        : std_logic_vector(7  downto 0);
-    signal proto_len     : std_logic_vector(7  downto 0);
-    signal arp_type      : std_logic_vector(15 downto 0);
-    signal src_ipv4      : std_logic_vector(31 downto 0);
-    signal match_ipv4    : std_logic_vector(31 downto 0);
+    signal broadcast         : std_logic_vector(47 downto 0);
+    signal src_mac           : std_logic_vector(47 downto 0);
+    signal frame_type        : std_logic_vector(15 downto 0);
+    signal hw_type           : std_logic_vector(15 downto 0);
+    signal proto_type        : std_logic_vector(15 downto 0);
+    signal hw_len            : std_logic_vector(7  downto 0);
+    signal proto_len         : std_logic_vector(7  downto 0);
+    signal arp_type          : std_logic_vector(15 downto 0);
+    signal src_ipv4          : std_logic_vector(31 downto 0);
+    signal match_ipv4        : std_logic_vector(31 downto 0);
 
     signal broadcast_ltc     : std_logic_vector(47 downto 0);
     signal src_mac_ltc       : std_logic_vector(47 downto 0);
@@ -87,7 +77,7 @@ architecture BEHAVIORAL of ARP_DATAPATH is
     signal src_ipv4_ltc      : std_logic_vector(31 downto 0);
     signal match_ipv4_ltc    : std_logic_vector(31 downto 0);
 
-    signal send_mac_int  : std_logic;
+    signal send_mac_int      : std_logic;
 
 begin
 
@@ -125,17 +115,6 @@ begin
     rx_cnt_eq_20_21  <= '1' when (rx_cntr_val = 20 or rx_cntr_val = 21) else '0';
     rx_cnt_btw_28_31 <= '1' when (rx_cntr_val > 27 and rx_cntr_val < 32) else '0';
     rx_cnt_btw_38_41 <= '1' when (rx_cntr_val > 37 and rx_cntr_val < 42) else '0';
-
-    tx_cnt_lt_6      <= '1' when (tx_cntr_val < 6) else '0';
-    tx_cnt_btw_5_12  <= '1' when (tx_cntr_val > 5 and tx_cntr_val < 12) else '0';
-    tx_cnt_eq_12_13  <= '1' when (tx_cntr_val = 12 or tx_cntr_val = 13) else '0';
-    tx_cnt_eq_14_15  <= '1' when (tx_cntr_val = 14 or tx_cntr_val = 15) else '0';
-    tx_cnt_eq_16_17  <= '1' when (tx_cntr_val = 16 or tx_cntr_val = 17) else '0';
-    tx_cnt_eq_18     <= '1' when (tx_cntr_val = 18) else '0';
-    tx_cnt_eq_19     <= '1' when (tx_cntr_val = 19) else '0';
-    tx_cnt_eq_20_21  <= '1' when (tx_cntr_val = 20 or tx_cntr_val = 21) else '0';
-    tx_cnt_btw_28_31 <= '1' when (tx_cntr_val > 27 and tx_cntr_val < 32) else '0';
-    tx_cnt_btw_38_41 <= '1' when (tx_cntr_val > 37 and tx_cntr_val < 42) else '0';
 
     Broadcast_Process : process(ARESET, CLK_RX)
     begin
@@ -380,5 +359,4 @@ begin
             end if;
         end if;
     end process Data_TX_Process;
-
 end BEHAVIORAL;
