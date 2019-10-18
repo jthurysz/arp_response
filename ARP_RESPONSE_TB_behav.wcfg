@@ -12,11 +12,11 @@
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
       <ZoomEndTime time="1000000001fs"></ZoomEndTime>
-      <Cursor1Time time="204000000fs"></Cursor1Time>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="308"></NameColumnWidth>
-      <ValueColumnWidth column_width="291"></ValueColumnWidth>
+      <ValueColumnWidth column_width="275"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="4" />
    <wvobject type="group" fp_name="group11">
@@ -143,10 +143,9 @@
          <obj_property name="ObjectShortName">DATA_ACK_TX</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group77">
+   <wvobject type="group" fp_name="group99">
       <obj_property name="label">Controller</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/ARESET">
          <obj_property name="ElementShortName">ARESET</obj_property>
          <obj_property name="ObjectShortName">ARESET</obj_property>
@@ -159,34 +158,70 @@
          <obj_property name="ElementShortName">DATA_VALID_RX</obj_property>
          <obj_property name="ObjectShortName">DATA_VALID_RX</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/CNT_EQ_41">
-         <obj_property name="ElementShortName">CNT_EQ_41</obj_property>
-         <obj_property name="ObjectShortName">CNT_EQ_41</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/CLK_TX">
+         <obj_property name="ElementShortName">CLK_TX</obj_property>
+         <obj_property name="ObjectShortName">CLK_TX</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/EN_CNT">
-         <obj_property name="ElementShortName">EN_CNT</obj_property>
-         <obj_property name="ObjectShortName">EN_CNT</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/DATA_ACK_TX">
+         <obj_property name="ElementShortName">DATA_ACK_TX</obj_property>
+         <obj_property name="ObjectShortName">DATA_ACK_TX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/RX_CNT_EQ_41">
+         <obj_property name="ElementShortName">RX_CNT_EQ_41</obj_property>
+         <obj_property name="ObjectShortName">RX_CNT_EQ_41</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/TX_CNT_EQ_41">
+         <obj_property name="ElementShortName">TX_CNT_EQ_41</obj_property>
+         <obj_property name="ObjectShortName">TX_CNT_EQ_41</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/RX_EN_CNT">
+         <obj_property name="ElementShortName">RX_EN_CNT</obj_property>
+         <obj_property name="ObjectShortName">RX_EN_CNT</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/TX_EN_CNT">
+         <obj_property name="ElementShortName">TX_EN_CNT</obj_property>
+         <obj_property name="ObjectShortName">TX_EN_CNT</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/PARSE_DONE">
          <obj_property name="ElementShortName">PARSE_DONE</obj_property>
          <obj_property name="ObjectShortName">PARSE_DONE</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/state">
-         <obj_property name="ElementShortName">state</obj_property>
-         <obj_property name="ObjectShortName">state</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Controller/SEND_MAC">
+         <obj_property name="ElementShortName">SEND_MAC</obj_property>
+         <obj_property name="ObjectShortName">SEND_MAC</obj_property>
       </wvobject>
-      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/next_state">
-         <obj_property name="ElementShortName">next_state</obj_property>
-         <obj_property name="ObjectShortName">next_state</obj_property>
+      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/rx_state">
+         <obj_property name="ElementShortName">rx_state</obj_property>
+         <obj_property name="ObjectShortName">rx_state</obj_property>
+      </wvobject>
+      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/rx_next_state">
+         <obj_property name="ElementShortName">rx_next_state</obj_property>
+         <obj_property name="ObjectShortName">rx_next_state</obj_property>
+      </wvobject>
+      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/tx_state">
+         <obj_property name="ElementShortName">tx_state</obj_property>
+         <obj_property name="ObjectShortName">tx_state</obj_property>
+      </wvobject>
+      <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Controller/tx_next_state">
+         <obj_property name="ElementShortName">tx_next_state</obj_property>
+         <obj_property name="ObjectShortName">tx_next_state</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group68">
-      <obj_property name="label">Datapath</obj_property>
+   <wvobject type="group" fp_name="group146">
+      <obj_property name="label">Controller</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/ARESET">
          <obj_property name="ElementShortName">ARESET</obj_property>
          <obj_property name="ObjectShortName">ARESET</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/MY_MAC">
+         <obj_property name="ElementShortName">MY_MAC[47:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_MAC[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/MY_IPV4">
+         <obj_property name="ElementShortName">MY_IPV4[31:0]</obj_property>
+         <obj_property name="ObjectShortName">MY_IPV4[31:0]</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/CLK_RX">
          <obj_property name="ElementShortName">CLK_RX</obj_property>
@@ -196,13 +231,42 @@
          <obj_property name="ElementShortName">DATA_RX[7:0]</obj_property>
          <obj_property name="ObjectShortName">DATA_RX[7:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/EN_CNT">
-         <obj_property name="ElementShortName">EN_CNT</obj_property>
-         <obj_property name="ObjectShortName">EN_CNT</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/CLK_TX">
+         <obj_property name="ElementShortName">CLK_TX</obj_property>
+         <obj_property name="ObjectShortName">CLK_TX</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/cntr_val">
-         <obj_property name="ElementShortName">cntr_val[5:0]</obj_property>
-         <obj_property name="ObjectShortName">cntr_val[5:0]</obj_property>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/RX_CNT_EQ_41">
+         <obj_property name="ElementShortName">RX_CNT_EQ_41</obj_property>
+         <obj_property name="ObjectShortName">RX_CNT_EQ_41</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/TX_CNT_EQ_41">
+         <obj_property name="ElementShortName">TX_CNT_EQ_41</obj_property>
+         <obj_property name="ObjectShortName">TX_CNT_EQ_41</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/RX_EN_CNT">
+         <obj_property name="ElementShortName">RX_EN_CNT</obj_property>
+         <obj_property name="ObjectShortName">RX_EN_CNT</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/TX_EN_CNT">
+         <obj_property name="ElementShortName">TX_EN_CNT</obj_property>
+         <obj_property name="ObjectShortName">TX_EN_CNT</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/PARSE_DONE">
+         <obj_property name="ElementShortName">PARSE_DONE</obj_property>
+         <obj_property name="ObjectShortName">PARSE_DONE</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/SEND_MAC">
+         <obj_property name="ElementShortName">SEND_MAC</obj_property>
+         <obj_property name="ObjectShortName">SEND_MAC</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/rx_cntr_val">
+         <obj_property name="ElementShortName">rx_cntr_val[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rx_cntr_val[5:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/tx_cntr_val">
+         <obj_property name="ElementShortName">tx_cntr_val[5:0]</obj_property>
+         <obj_property name="ObjectShortName">tx_cntr_val[5:0]</obj_property>
          <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       </wvobject>
       <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/cnt_lt_6">
@@ -284,6 +348,50 @@
       <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/match_ipv4">
          <obj_property name="ElementShortName">match_ipv4[31:0]</obj_property>
          <obj_property name="ObjectShortName">match_ipv4[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/broadcast_ltc">
+         <obj_property name="ElementShortName">broadcast_ltc[47:0]</obj_property>
+         <obj_property name="ObjectShortName">broadcast_ltc[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/src_mac_ltc">
+         <obj_property name="ElementShortName">src_mac_ltc[47:0]</obj_property>
+         <obj_property name="ObjectShortName">src_mac_ltc[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/frame_type_ltc">
+         <obj_property name="ElementShortName">frame_type_ltc[15:0]</obj_property>
+         <obj_property name="ObjectShortName">frame_type_ltc[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/hw_type_ltc">
+         <obj_property name="ElementShortName">hw_type_ltc[15:0]</obj_property>
+         <obj_property name="ObjectShortName">hw_type_ltc[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/proto_type_ltc">
+         <obj_property name="ElementShortName">proto_type_ltc[15:0]</obj_property>
+         <obj_property name="ObjectShortName">proto_type_ltc[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/hw_len_ltc">
+         <obj_property name="ElementShortName">hw_len_ltc[7:0]</obj_property>
+         <obj_property name="ObjectShortName">hw_len_ltc[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/proto_len_ltc">
+         <obj_property name="ElementShortName">proto_len_ltc[7:0]</obj_property>
+         <obj_property name="ObjectShortName">proto_len_ltc[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/arp_type_ltc">
+         <obj_property name="ElementShortName">arp_type_ltc[15:0]</obj_property>
+         <obj_property name="ObjectShortName">arp_type_ltc[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/src_ipv4_ltc">
+         <obj_property name="ElementShortName">src_ipv4_ltc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">src_ipv4_ltc[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/match_ipv4_ltc">
+         <obj_property name="ElementShortName">match_ipv4_ltc[31:0]</obj_property>
+         <obj_property name="ObjectShortName">match_ipv4_ltc[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/send_mac_int">
+         <obj_property name="ElementShortName">send_mac_int</obj_property>
+         <obj_property name="ObjectShortName">send_mac_int</obj_property>
       </wvobject>
       <wvobject type="other" fp_name="/ARP_RESPONSE_TB/UUT/Datapath/C_CNTR_MAX">
          <obj_property name="ElementShortName">C_CNTR_MAX</obj_property>
