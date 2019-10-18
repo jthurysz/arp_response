@@ -21,11 +21,8 @@ entity ARP_DATAPATH is
           CLK_RX : in std_logic;
           DATA_RX: in std_logic_vector(7 downto 0);
 
-          CLK_TX       : in std_logic;
-          RX_CNT_EQ_41 : out std_logic;
-          TX_CNT_EQ_41 : out std_logic;
-          RX_EN_CNT    : in std_logic;
-          TX_EN_CNT    : in std_logic;
+          CNT_EQ_41 : out std_logic;
+          EN_CNT    : in std_logic;
           
           PARSE_DONE: in std_logic;
           SEND_MAC  : out std_logic);
@@ -37,8 +34,7 @@ architecture BEHAVIORAL of ARP_DATAPATH is
     constant C_CNTR_MAX : positive := 41;
 
     -- Signal Declarations
-    signal rx_cntr_val      : unsigned(5 downto 0);
-    signal tx_cntr_val      : unsigned(5 downto 0);
+    signal cntr_val      : unsigned(5 downto 0);
 
     signal cnt_lt_6      : std_logic;
     signal cnt_btw_5_12  : std_logic;
@@ -77,47 +73,45 @@ architecture BEHAVIORAL of ARP_DATAPATH is
 
 begin
 
-    ------ Recieve Logic ---------
-
-    Rx_Counter_Process : process(ARESET, CLK_RX)
+    Counter_Process : process(ARESET, CLK_RX)
     begin
         if (ARESET = '1') then
-            RX_CNT_EQ_41 <= '0';
-            rx_cntr_val  <= to_unsigned(0, rx_cntr_val'length);
+            CNT_EQ_41 <= '0';
+            cntr_val  <= to_unsigned(0, cntr_val'length);
         elsif rising_edge(CLK_RX) then
-            if (RX_EN_CNT = '1') then
-                if (to_integer(rx_cntr_val) = C_CNTR_MAX) then
-                    RX_CNT_EQ_41 <= '1';
-                    rx_cntr_val  <= to_unsigned(0, rx_cntr_val'length);
+            if (EN_CNT = '1') then
+                if (to_integer(cntr_val) = C_CNTR_MAX) then
+                    CNT_EQ_41 <= '1';
+                    cntr_val  <= to_unsigned(0, cntr_val'length);
                 else
-                    RX_CNT_EQ_41 <= '0';
-                    rx_cntr_val  <= rx_cntr_val + 1;
+                    CNT_EQ_41 <= '0';
+                    cntr_val  <= cntr_val + 1;
                 end if;
             end if;
         end if;
-    end process Rx_Counter_Process;
+    end process Counter_Process;
 
     -- Outputs
     SEND_MAC <= send_mac_int;
 
     -- Comparators
-    cnt_lt_6      <= '1' when (rx_cntr_val < 6) else '0';
-    cnt_btw_5_12  <= '1' when (rx_cntr_val > 5 and rx_cntr_val < 12) else '0';
-    cnt_eq_12_13  <= '1' when (rx_cntr_val = 12 or rx_cntr_val = 13) else '0';
-    cnt_eq_14_15  <= '1' when (rx_cntr_val = 14 or rx_cntr_val = 15) else '0';
-    cnt_eq_16_17  <= '1' when (rx_cntr_val = 16 or rx_cntr_val = 17) else '0';
-    cnt_eq_18     <= '1' when (rx_cntr_val = 18) else '0';
-    cnt_eq_19     <= '1' when (rx_cntr_val = 19) else '0';
-    cnt_eq_20_21  <= '1' when (rx_cntr_val = 20 or rx_cntr_val = 21) else '0';
-    cnt_btw_28_31 <= '1' when (rx_cntr_val > 27 and rx_cntr_val < 32) else '0';
-    cnt_btw_38_41 <= '1' when (rx_cntr_val > 37 and rx_cntr_val < 42) else '0';
+    cnt_lt_6      <= '1' when (cntr_val < 6) else '0';
+    cnt_btw_5_12  <= '1' when (cntr_val > 5 and cntr_val < 12) else '0';
+    cnt_eq_12_13  <= '1' when (cntr_val = 12 or cntr_val = 13) else '0';
+    cnt_eq_14_15  <= '1' when (cntr_val = 14 or cntr_val = 15) else '0';
+    cnt_eq_16_17  <= '1' when (cntr_val = 16 or cntr_val = 17) else '0';
+    cnt_eq_18     <= '1' when (cntr_val = 18) else '0';
+    cnt_eq_19     <= '1' when (cntr_val = 19) else '0';
+    cnt_eq_20_21  <= '1' when (cntr_val = 20 or cntr_val = 21) else '0';
+    cnt_btw_28_31 <= '1' when (cntr_val > 27 and cntr_val < 32) else '0';
+    cnt_btw_38_41 <= '1' when (cntr_val > 37 and cntr_val < 42) else '0';
 
     Broadcast_Process : process(ARESET, CLK_RX)
     begin
         if (ARESET = '1') then
             broadcast <= (others => '0');
         elsif rising_edge(CLK_RX) then
-            if (cnt_lt_6 = '1' and RX_EN_CNT = '1') then
+            if (cnt_lt_6 = '1' and EN_CNT = '1') then
                 broadcast <= broadcast(39 downto 0) & DATA_RX(7 downto 0);
             end if;
         end if;
@@ -275,25 +269,5 @@ begin
             end if;
         end if;
     end process Latch_Registers_For_Tx_Process;
-
-    ------ Transmit Logic ---------
-
-    Tx_Counter_Process : process(ARESET, CLK_TX)
-    begin
-        if (ARESET = '1') then
-            TX_CNT_EQ_41 <= '0';
-            tx_cntr_val  <= to_unsigned(1, tx_cntr_val'length);
-        elsif rising_edge(CLK_TX) then
-            if (TX_EN_CNT = '1') then
-                if (to_integer(tx_cntr_val) = C_CNTR_MAX) then
-                    TX_CNT_EQ_41 <= '1';
-                    tx_cntr_val  <= to_unsigned(1, tx_cntr_val'length);
-                else
-                    TX_CNT_EQ_41 <= '0';
-                    tx_cntr_val  <= tx_cntr_val + 1;
-                end if;
-            end if;
-        end if;
-    end process Tx_Counter_Process;
 
 end BEHAVIORAL;

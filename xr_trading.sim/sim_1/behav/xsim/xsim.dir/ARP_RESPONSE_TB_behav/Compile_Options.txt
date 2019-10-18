@@ -1,1 +1,0 @@
--wto "832a455316324ba59b0b5d871d2ca7a3" --incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "secureip" --snapshot "ARP_RESPONSE_TB_behav" "xil_defaultlib.ARP_RESPONSE_TB" -log "elaborate.log" 
