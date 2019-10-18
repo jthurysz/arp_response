@@ -22,59 +22,120 @@ entity ARP_CONTROLLER is
           CLK_RX        : in  std_logic;
           DATA_VALID_RX : in  std_logic;
 
-          CNT_EQ_41     : in  std_logic;
-          EN_CNT        : out std_logic;
-          PARSE_DONE    : out std_logic);
+          CLK_TX        : in  std_logic;
+          DATA_ACK_TX   : in  std_logic;
+
+          RX_CNT_EQ_41  : in  std_logic;
+          TX_CNT_EQ_41  : in  std_logic;
+
+          RX_EN_CNT        : out std_logic;
+          TX_EN_CNT     : out std_logic;
+          PARSE_DONE    : out std_logic;
+          SEND_MAC      : in  std_logic);
 end ARP_CONTROLLER;
 
 architecture BEHAVIORAL of ARP_CONTROLLER is
 
     -- RX FSM Declaration
     type T_RX_FSM is (S_IDLE, S_PARSE);
-    signal state, next_state : T_RX_FSM := S_IDLE;
+    signal rx_state, rx_next_state : T_RX_FSM := S_IDLE;
+
+    --TX FSM Declaration
+    type T_TX_FSM is (S_IDLE, S_SHOW_BYTE_WAIT_ACK_TX, S_CONTINOUS_WRITE);
+    signal tx_state, tx_next_state : T_TX_FSM := S_IDLE;
 
 begin
 
     RX_State_Process : process(ARESET, CLK_RX)
     begin
         if ARESET = '1' then
-            state <= S_IDLE;
+            rx_state <= S_IDLE;
         elsif rising_edge(CLK_RX) then
-            state <= next_state;
+            rx_state <= rx_next_state;
         end if;
     end process RX_State_Process;
 
-    RX_State_Transition_Logic : process(state, ARESET, DATA_VALID_RX, CNT_EQ_41)
+    RX_State_Transition_Logic : process(rx_state, ARESET, DATA_VALID_RX, RX_CNT_EQ_41)
     begin
-        case state is
+        case rx_state is
             when S_IDLE  =>
 
                 PARSE_DONE <= '0';
-                EN_CNT <= '0';
+                RX_EN_CNT <= '0';
 
                 if (ARESET = '1') then
-                    next_state <= S_IDLE;
+                    rx_next_state <= S_IDLE;
                 elsif (DATA_VALID_RX = '1') then
-                    EN_CNT <= '1';
-                    next_state <= S_PARSE;
+                    RX_EN_CNT <= '1';
+                    rx_next_state <= S_PARSE;
                 else
-                    next_state <= S_IDLE;
+                    rx_next_state <= S_IDLE;
                 end if;
 
             when S_PARSE =>
 
-                EN_CNT <= '1';
+                RX_EN_CNT <= '1';
             
-                if (ARESET = '1' or CNT_EQ_41 = '1') then
-                    EN_CNT     <= '0';
+                if (ARESET = '1' or RX_CNT_EQ_41 = '1') then
+                    RX_EN_CNT     <= '0';
                     PARSE_DONE <= '1';
-                    next_state <= S_IDLE;
+                    rx_next_state <= S_IDLE;
                 else
-                    next_state <= S_PARSE;
+                    rx_next_state <= S_PARSE;
                 end if;
-
         end case;
     end process RX_State_Transition_Logic;
 
+    TX_State_Process : process(ARESET, CLK_TX)
+    begin
+        if ARESET = '1' then
+            tx_state <= S_IDLE;
+        elsif rising_edge(CLK_TX) then
+            tx_state <= tx_next_state;
+        end if;
+    end process TX_State_Process;
+
+    TX_State_Transition_Logic : process(tx_state, ARESET, SEND_MAC, DATA_ACK_TX, TX_CNT_EQ_41)
+    begin
+        case tx_state is
+
+            when S_IDLE  =>
+
+                TX_EN_CNT <= '0';
+
+                if (ARESET = '1') then
+                    tx_next_state <= S_IDLE;
+                elsif (SEND_MAC = '1') then
+                    tx_next_state <= S_SHOW_BYTE_WAIT_ACK_TX;
+                else
+                    tx_next_state <= S_IDLE;
+                end if;
+
+            when S_SHOW_BYTE_WAIT_ACK_TX =>
+
+                TX_EN_CNT <= '0';
+                
+                if (ARESET = '1') then
+                    tx_next_state <= S_IDLE;
+                elsif (DATA_ACK_TX = '1') then
+                    TX_EN_CNT <= '1';
+                    tx_next_state <= S_CONTINOUS_WRITE;
+                else
+                    tx_next_state <= S_SHOW_BYTE_WAIT_ACK_TX;
+                end if;
+
+            when S_CONTINOUS_WRITE =>
+                
+                TX_EN_CNT <= '1';
+
+                if (ARESET = '1' or TX_CNT_EQ_41 = '1') then
+                    TX_EN_CNT <= '0';
+                    tx_next_state <= S_IDLE;
+                else
+                    tx_next_state <= S_CONTINOUS_WRITE;
+                end if;
+                    
+        end case;
+    end process TX_State_Transition_Logic;
 
 end BEHAVIORAL;

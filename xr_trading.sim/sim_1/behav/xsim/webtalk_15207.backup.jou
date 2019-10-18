@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2019.1.2 (64-bit)
+# SW Build 2615518 on Fri Aug  9 15:53:29 MDT 2019
+# IP Build 2614745 on Fri Aug  9 20:55:02 MDT 2019
+# Start of session at: Thu Oct 17 16:44:40 2019
+# Process ID: 15207
+# Current directory: /home/joe/xr_trading/xr_trading.sim/sim_1/behav/xsim
+# Command line: wbtcv -mode batch -source /home/joe/xr_trading/xr_trading.sim/sim_1/behav/xsim/xsim.dir/ARP_RESPONSE_TB_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: /home/joe/xr_trading/xr_trading.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: /home/joe/xr_trading/xr_trading.sim/sim_1/behav/xsim/webtalk.jou
+#-----------------------------------------------------------
+source /home/joe/xr_trading/xr_trading.sim/sim_1/behav/xsim/xsim.dir/ARP_RESPONSE_TB_behav/webtalk/xsim_webtalk.tcl -notrace

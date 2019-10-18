@@ -1,0 +1,9 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../xr_trading.srcs/sources_1/new/arp_controller.vhd" \
+"../../../../xr_trading.srcs/sources_1/new/arp_datapath.vhd" \
+"../../../../xr_trading.srcs/sources_1/new/arp_response.vhd" \
+"../../../../xr_trading.srcs/sim_1/new/arp_response_tb.vhd" \
+
+# Do not sort compile order
+nosort
