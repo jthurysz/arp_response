@@ -43,24 +43,31 @@ architecture BEHAVIORAL of ARP_RESPONSE is
               DATA_VALID_RX : in std_logic;
               
               CNT_EQ_41     : in std_logic;
-              EN_CNT        : out std_logic);
+              EN_CNT        : out std_logic;
+              PARSE_DONE    : out std_logic);
     end component ARP_CONTROLLER;
 
     component ARP_DATAPATH
         port (ARESET        : in std_logic;
+
+               -- Static Signals
+              MY_MAC        : in  std_logic_vector(47 downto 0);
+              MY_IPV4       : in  std_logic_vector(31 downto 0);
                 
               CLK_RX        : in std_logic;
               DATA_RX       : in std_logic_vector(7 downto 0);
               
               CNT_EQ_41     : out std_logic;
-              EN_CNT        : in std_logic);
+              EN_CNT        : in std_logic;
+              PARSE_DONE    : in std_logic);
     end component ARP_DATAPATH;
 
     -- Constants
 
     -- Controller/Datapath Interconnections
     signal en_cnt    : std_logic;
-    signal CNT_EQ_41 : std_logic;
+    signal cnt_eq_41 : std_logic;
+    signal parse_done: std_logic;
 
 begin
 
@@ -68,14 +75,18 @@ begin
     port map (ARESET => ARESET,
               CLK_RX => CLK_RX,
               DATA_VALID_RX => DATA_VALID_RX,
-              CNT_EQ_41     => CNT_EQ_41,
-              EN_CNT        => en_cnt);
+              CNT_EQ_41     => cnt_eq_41,
+              EN_CNT        => en_cnt,
+              PARSE_DONE    => parse_done);
 
     Datapath : ARP_DATAPATH
     port map (ARESET => ARESET,
+              MY_MAC => MY_MAC,
+              MY_IPV4 => MY_IPV4,
               CLK_RX => CLK_RX,
               DATA_RX => DATA_RX,
-              CNT_EQ_41     => CNT_EQ_41,
-              EN_CNT        => en_cnt);
+              CNT_EQ_41     => cnt_eq_41,
+              EN_CNT        => en_cnt,
+              PARSE_DONE    => parse_done);
 
 end BEHAVIORAL;

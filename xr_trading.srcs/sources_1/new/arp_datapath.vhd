@@ -13,12 +13,19 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity ARP_DATAPATH is
     Port (ARESET : in std_logic;
+
+          -- Static Signals
+          MY_MAC        : in  std_logic_vector(47 downto 0);
+          MY_IPV4       : in  std_logic_vector(31 downto 0);
         
           CLK_RX : in std_logic;
           DATA_RX: in std_logic_vector(7 downto 0);
 
           CNT_EQ_41 : out std_logic;
-          EN_CNT : in std_logic);
+          EN_CNT    : in std_logic;
+          
+          PARSE_DONE: in std_logic;
+          SEND_MAC  : out std_logic);
 end ARP_DATAPATH;
 
 architecture BEHAVIORAL of ARP_DATAPATH is
@@ -51,6 +58,19 @@ architecture BEHAVIORAL of ARP_DATAPATH is
     signal src_ipv4      : std_logic_vector(31 downto 0);
     signal match_ipv4    : std_logic_vector(31 downto 0);
 
+    signal broadcast_ltc     : std_logic_vector(47 downto 0);
+    signal src_mac_ltc       : std_logic_vector(47 downto 0);
+    signal frame_type_ltc    : std_logic_vector(15 downto 0);
+    signal hw_type_ltc       : std_logic_vector(15 downto 0);
+    signal proto_type_ltc    : std_logic_vector(15 downto 0);
+    signal hw_len_ltc        : std_logic_vector(7  downto 0);
+    signal proto_len_ltc     : std_logic_vector(7  downto 0);
+    signal arp_type_ltc      : std_logic_vector(15 downto 0);
+    signal src_ipv4_ltc      : std_logic_vector(31 downto 0);
+    signal match_ipv4_ltc    : std_logic_vector(31 downto 0);
+
+    signal send_mac_int  : std_logic;
+
 begin
 
     Counter_Process : process(ARESET, CLK_RX)
@@ -70,6 +90,9 @@ begin
             end if;
         end if;
     end process Counter_Process;
+
+    -- Outputs
+    SEND_MAC <= send_mac_int;
 
     -- Comparators
     cnt_lt_6      <= '1' when (cntr_val < 6) else '0';
@@ -192,5 +215,59 @@ begin
             end if;
         end if;
     end process Match_Ipv4_Process;
+
+    Response_Arbiter_Process : process(ARESET, CLK_RX) 
+    begin
+        if (ARESET = '1') then
+            send_mac_int <= '0';
+        elsif rising_edge(CLK_RX) then
+            if (PARSE_DONE = '1') then
+                if (broadcast = x"FFFFFFFFFFFF") then
+                    if (frame_type = x"0806") then
+                        if (hw_type = x"0001" and proto_type = x"0800") then
+                            if (hw_len = x"06" and proto_len = x"04") then
+                                if (arp_type = x"0001") then
+                                    if (match_ipv4 = MY_IPV4) then
+                                        send_mac_int <= '1';
+                                    end if;
+                                end if;
+                           end if;
+                        end if;
+                    end if;    
+                end if;
+            else
+                send_mac_int <= '0';
+            end if;
+        end if;
+    end process Response_Arbiter_Process;
+
+    Latch_Registers_For_Tx_Process : process(ARESET, CLK_RX)
+    begin
+        if (ARESET = '1') then
+            broadcast_ltc     <= (others => '0');
+            src_mac_ltc       <= (others => '0');
+            frame_type_ltc    <= (others => '0');
+            hw_type_ltc       <= (others => '0');
+            proto_type_ltc    <= (others => '0');
+            hw_len_ltc        <= (others => '0');
+            proto_len_ltc     <= (others => '0');
+            arp_type_ltc      <= (others => '0');
+            src_ipv4_ltc      <= (others => '0');
+            match_ipv4_ltc    <= (others => '0');
+        elsif rising_edge(CLK_RX) then
+            if (send_mac_int = '1') then
+                broadcast_ltc     <= broadcast;
+                src_mac_ltc       <= src_mac;
+                frame_type_ltc    <= frame_type;
+                hw_type_ltc       <= hw_type;
+                proto_type_ltc    <= proto_type;
+                hw_len_ltc        <= hw_len;
+                proto_len_ltc     <= proto_len;
+                arp_type_ltc      <= arp_type;
+                src_ipv4_ltc      <= src_ipv4;
+                match_ipv4_ltc    <= match_ipv4;
+            end if;
+        end if;
+    end process Latch_Registers_For_Tx_Process;
 
 end BEHAVIORAL;
