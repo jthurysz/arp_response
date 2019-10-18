@@ -113,7 +113,13 @@ begin
         DATA_VALID_RX <= '0';
         DATA_RX       <= (others => 'U');
 
-        wait for C_CLK_PERIOD*5;
+        wait for C_CLK_PERIOD*10;
+        wait until rising_edge(CLK_TX);
+        DATA_ACK_TX <= '1';
+        wait until rising_edge(CLK_TX);
+        DATA_ACK_TX <= '0';
+
+        wait for C_CLK_PERIOD*20;
 
 
         wait;

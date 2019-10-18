@@ -41,10 +41,16 @@ architecture BEHAVIORAL of ARP_RESPONSE is
               
               CLK_RX        : in std_logic;
               DATA_VALID_RX : in std_logic;
+
+              DATA_ACK_TX   : in std_logic;
+              CLK_TX        : in std_logic;
               
-              CNT_EQ_41     : in std_logic;
-              EN_CNT        : out std_logic;
-              PARSE_DONE    : out std_logic);
+              RX_CNT_EQ_41  : in std_logic;
+              TX_CNT_EQ_41  : in std_logic;
+              RX_EN_CNT     : out std_logic;
+              TX_EN_CNT     : out std_logic;
+              PARSE_DONE    : out std_logic;
+              SEND_MAC      : in std_logic);
     end component ARP_CONTROLLER;
 
     component ARP_DATAPATH
@@ -57,36 +63,53 @@ architecture BEHAVIORAL of ARP_RESPONSE is
               CLK_RX        : in std_logic;
               DATA_RX       : in std_logic_vector(7 downto 0);
               
-              CNT_EQ_41     : out std_logic;
-              EN_CNT        : in std_logic;
-              PARSE_DONE    : in std_logic);
+              CLK_TX        : in std_logic;
+              
+              RX_CNT_EQ_41  : out std_logic;
+              TX_CNT_EQ_41  : out std_logic;
+              RX_EN_CNT     : in  std_logic;
+              TX_EN_CNT     : in  std_logic;
+              PARSE_DONE    : in  std_logic;
+              SEND_MAC      : out std_logic);
     end component ARP_DATAPATH;
 
     -- Constants
 
     -- Controller/Datapath Interconnections
-    signal en_cnt    : std_logic;
-    signal cnt_eq_41 : std_logic;
-    signal parse_done: std_logic;
+    signal rx_en_cnt    : std_logic;
+    signal tx_en_cnt    : std_logic;
+    signal rx_cnt_eq_41 : std_logic;
+    signal tx_cnt_eq_41 : std_logic;
+    signal parse_done   : std_logic;
+    signal send_mac     : std_logic;
 
 begin
 
     Controller : ARP_CONTROLLER
-    port map (ARESET => ARESET,
-              CLK_RX => CLK_RX,
+    port map (ARESET        => ARESET,
+              CLK_RX        => CLK_RX,
               DATA_VALID_RX => DATA_VALID_RX,
-              CNT_EQ_41     => cnt_eq_41,
-              EN_CNT        => en_cnt,
-              PARSE_DONE    => parse_done);
+              CLK_TX        => CLK_TX,
+              DATA_ACK_TX   => DATA_ACK_TX,
+              RX_CNT_EQ_41  => rx_cnt_eq_41,
+              TX_CNT_EQ_41  => tx_cnt_eq_41,
+              RX_EN_CNT     => rx_en_cnt,
+              TX_EN_CNT     => tx_en_cnt,
+              PARSE_DONE    => parse_done,
+              SEND_MAC      => send_mac);
 
     Datapath : ARP_DATAPATH
-    port map (ARESET => ARESET,
-              MY_MAC => MY_MAC,
-              MY_IPV4 => MY_IPV4,
-              CLK_RX => CLK_RX,
-              DATA_RX => DATA_RX,
-              CNT_EQ_41     => cnt_eq_41,
-              EN_CNT        => en_cnt,
-              PARSE_DONE    => parse_done);
+    port map (ARESET        => ARESET,
+              MY_MAC        => MY_MAC,
+              MY_IPV4       => MY_IPV4,
+              CLK_RX        => CLK_RX,
+              DATA_RX       => DATA_RX,
+              CLK_TX        => CLK_TX,
+              RX_CNT_EQ_41  => rx_cnt_eq_41,
+              TX_CNT_EQ_41  => tx_cnt_eq_41,
+              RX_EN_CNT     => rx_en_cnt,
+              TX_EN_CNT     => tx_en_cnt,
+              PARSE_DONE    => parse_done,
+              SEND_MAC      => send_mac);
 
 end BEHAVIORAL;
