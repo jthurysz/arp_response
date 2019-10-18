@@ -1,4 +1,4 @@
-Running: xsim.dir/ARP_RESPONSE_TB_behav/xsimk -simmode gui -wdb ARP_RESPONSE_TB_behav.wdb -simrunnum 0 -socket 50033
+Running: xsim.dir/ARP_RESPONSE_TB_behav/xsimk -simmode gui -wdb ARP_RESPONSE_TB_behav.wdb -simrunnum 0 -socket 53189
 Design successfully loaded
-Design Loading Memory Usage: 43960 KB (Peak: 44080 KB)
-Design Loading CPU Usage: 10 ms
+Design Loading Memory Usage: 43980 KB (Peak: 44100 KB)
+Design Loading CPU Usage: 20 ms

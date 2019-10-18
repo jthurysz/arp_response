@@ -42,6 +42,7 @@ architecture TESTBENCH of ARP_RESPONSE_TB is
     constant C_CLK_PERIOD    : time := 8 ns; -- 125 MHz Frequency
 
     constant C_MY_IPV4         : std_logic_vector(31 downto 0) := x"C0A80102";
+    constant C_NOT_MY_IPV4     : std_logic_vector(31 downto 0) := x"C0A80108";
     constant C_MY_MAC          : std_logic_vector(47 downto 0) := x"000223010203";
     constant C_ARP_BROADCAST   : std_logic_vector(47 downto 0) := x"FFFFFFFFFFFF";
     constant C_ETH_SRC_MAC     : std_logic_vector(47 downto 0) := x"000142005F68";
@@ -58,6 +59,11 @@ architecture TESTBENCH of ARP_RESPONSE_TB is
                                                                 &  C_HARDWARE_TYPE & C_PROTOCOL_TYPE & C_HARDWARE_LEN
                                                                 &  C_PROTOCOL_LEN  & C_ARP_REQUEST   & C_ETH_SRC_MAC
                                                                 &  C_ETH_SRC_IPV4  & x"000000000000" & C_MY_IPV4;
+    
+    constant C_ARP_REQ_FAIL : std_logic_vector(335 downto 0) := C_ARP_BROADCAST & C_ETH_SRC_MAC   & C_FRAME_TYPE
+                                                                &  C_HARDWARE_TYPE & C_PROTOCOL_TYPE & C_HARDWARE_LEN
+                                                                &  C_PROTOCOL_LEN  & C_ARP_REQUEST   & C_ETH_SRC_MAC
+                                                                &  C_ETH_SRC_IPV4  & x"000000000000" & C_NOT_MY_IPV4;
 
     -- Testbench Signals
     signal ARESET        : std_logic := '0';
@@ -67,6 +73,7 @@ architecture TESTBENCH of ARP_RESPONSE_TB is
     signal DATA_VALID_RX : std_logic := '0';
     signal DATA_RX       : std_logic_vector(7 downto 0);
     signal CLK_TX        : std_logic := '0';
+    signal DATA_VALID_TX : std_logic := '0';
     signal DATA_TX       : std_logic_vector(7 downto 0);
     signal DATA_ACK_TX   : std_logic := '0';
 
@@ -82,6 +89,7 @@ begin
               DATA_VALID_RX => DATA_VALID_RX,
               DATA_RX       => DATA_RX,
               CLK_TX        => CLK_TX,
+              DATA_VALID_TX => DATA_VALID_TX,
               DATA_TX       => DATA_TX,
               DATA_ACK_TX   => DATA_ACK_TX);
 
@@ -103,7 +111,33 @@ begin
         ARESET <= '0';
         wait for C_CLK_PERIOD*2;
 
-        -- Start First ARP Request
+        -- start failed ARP request
+        wait until rising_edge(CLK_RX);
+        DATA_VALID_RX <= '1';
+        for i in 41 downto 0 loop
+            DATA_RX <= C_ARP_REQ_FAIL((((i+1)*8)-1) downto i*8);
+            wait until rising_edge(CLK_RX);
+        end loop;
+        DATA_VALID_RX <= '0';
+        DATA_RX       <= (others => 'U');
+
+        -- start succesful request w/ARESET in middle
+        wait for C_CLK_PERIOD*5;
+        wait until rising_edge(CLK_RX);
+        DATA_VALID_RX <= '1';
+        for i in 41 downto 20 loop
+            DATA_RX <= C_ARP_REQ_SUCCESS((((i+1)*8)-1) downto i*8);
+            wait until rising_edge(CLK_RX);
+        end loop;
+        DATA_VALID_RX <= '0';
+        DATA_RX       <= (others => 'U');
+
+        ARESET <= '1';
+        wait for C_CLK_PERIOD;
+        ARESET <= '0';
+        
+        -- Start succesful ARP Request
+        wait for C_CLK_PERIOD*5;
         wait until rising_edge(CLK_RX);
         DATA_VALID_RX <= '1';
         for i in 41 downto 0 loop
@@ -113,14 +147,14 @@ begin
         DATA_VALID_RX <= '0';
         DATA_RX       <= (others => 'U');
 
+        -- send DATA_ACK_TX
         wait for C_CLK_PERIOD*10;
         wait until rising_edge(CLK_TX);
         DATA_ACK_TX <= '1';
         wait until rising_edge(CLK_TX);
         DATA_ACK_TX <= '0';
-
+        
         wait for C_CLK_PERIOD*20;
-
 
         wait;
     end process;
